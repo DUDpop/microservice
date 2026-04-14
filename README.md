@@ -14,7 +14,7 @@
 2. Укажите путь к Java (если PowerShell не видит JDK 21)
    
 windows powershell:
-- $env:Path = " "путь к jdk 21" + bin;" + $env:Path
+- $env:Path = ""путь к java jdk 21"\bin;" + $env:Path
 - java -version
 
 3. Запустите приложение
