@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd">
+
+    <!-- ===================== -->
+    <!-- 1. СОЗДАНИЕ ТАБЛИЦ -->
+    <!-- ===================== -->
+    <changeSet id="001-create-tables" author="cursor">
+
+        <createTable tableName="dictionaries">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(200)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="key_field_name" type="varchar(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="schema_json" type="jsonb">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamptz">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamptz">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="dictionary_entries">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="dictionary_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="key_value" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value_json" type="jsonb">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamptz">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamptz">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="dictionary_entries"
+                                 baseColumnNames="dictionary_id"
+                                 referencedTableName="dictionaries"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_dictionary_entries_dictionary"
+                                 deleteCascade="true"/>
+
+        <addUniqueConstraint tableName="dictionary_entries"
+                             columnNames="dictionary_id,key_value"
+                             constraintName="uq_dictionary_entries_dictionary_key"/>
+
+        <createIndex indexName="ix_dictionary_entries_dictionary_id_key_value"
+                     tableName="dictionary_entries">
+            <column name="dictionary_id"/>
+            <column name="key_value"/>
+        </createIndex>
+
+    </changeSet>
+
+    <!-- ===================== -->
+    <!-- 2. НАЧАЛЬНЫЕ ДАННЫЕ -->
+    <!-- ===================== -->
+    <changeSet id="002-insert-initial-data" author="me">
+
+        <insert tableName="dictionaries">
+            <column name="id" value="11111111-1111-1111-1111-111111111111"/>
+            <column name="name" value="countries"/>
+            <column name="key_field_name" value="code"/>
+            <column name="schema_json"
+                    value='{"code":"string","name":"string"}'/>
+            <column name="created_at" valueDate="2024-01-01T00:00:00"/>
+            <column name="updated_at" valueDate="2024-01-01T00:00:00"/>
+        </insert>
+
+        <insert tableName="dictionary_entries">
+            <column name="id" value="22222222-2222-2222-2222-222222222222"/>
+            <column name="dictionary_id" value="11111111-1111-1111-1111-111111111111"/>
+            <column name="key_value" value="RU"/>
+            <column name="value_json"
+                    value='{"code":"RU","name":"Russia"}'/>
+            <column name="created_at" valueDate="2024-01-01T00:00:00"/>
+            <column name="updated_at" valueDate="2024-01-01T00:00:00"/>
+        </insert>
+
+        <insert tableName="dictionary_entries">
+            <column name="id" value="33333333-3333-3333-3333-333333333333"/>
+            <column name="dictionary_id" value="11111111-1111-1111-1111-111111111111"/>
+            <column name="key_value" value="US"/>
+            <column name="value_json"
+                    value='{"code":"US","name":"USA"}'/>
+            <column name="created_at" valueDate="2024-01-01T00:00:00"/>
+            <column name="updated_at" valueDate="2024-01-01T00:00:00"/>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>
