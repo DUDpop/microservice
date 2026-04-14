@@ -9,7 +9,7 @@
 1. PostgreSQL
    
 Убедитесь, что PostgreSQL запущен и создана БД:
-"CREATE DATABASE microservice;"
+- "CREATE DATABASE microservice;"
 
 2. Укажите путь к Java (если PowerShell не видит JDK 21)
    
@@ -19,13 +19,13 @@ windows powershell:
 
 3. Запустите приложение
    
-windows powershell
-cd "путь к микросервису"
-.\mvnw.cmd spring-boot:run
+windows powershell:
+- cd "путь к микросервису"
+- .\mvnw.cmd spring-boot:run
 
 4. Проверьте работу
    
 Перейдите по адресу:
-http://localhost:8081/swagger-ui.html
+- http://localhost:8081/swagger-ui.html
 
 При первом запуске Maven автоматически загрузит зависимости.
